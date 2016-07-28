@@ -199,15 +199,15 @@ void UART4_IRQHandler(void)
 
 void UART5_IRQHandler(void)
 {
-	
-	if(USART_GetITStatus(UART5, USART_IT_RXNE) != RESET)
-	{ 	
-	    //ch = USART1->DR;
-		//(*(USART_RX + count)) = USART_ReceiveData(USART1);
-			USART_RX_5[count]	= USART_ReceiveData(UART5);
-	  	printf( "%c", ((USART_RX_5[count])) );    //将接受到的数据直接返回打印
-		count ++ ;
-	} 
+//	
+//	if(USART_GetITStatus(UART5, USART_IT_RXNE) != RESET)
+//	{ 	
+//	    //ch = USART1->DR;
+//		//(*(USART_RX + count)) = USART_ReceiveData(USART1);
+//		USART_RX_5[count]	= USART_ReceiveData(UART5);
+//	  	printf( "%c", ((USART_RX_5[count])) );    //将接受到的数据直接返回打印
+//		count ++ ;
+//	} 
 	 
 }
 /******************************************************************************/

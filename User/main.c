@@ -6,6 +6,7 @@
 #include "bicycle_mlx9016.h"
 #include "bsp_adc.h"
 #include "timer.h"
+#include "bsp_usart1.h"
 /**
   * @brief  主函数
   * @param  无  
@@ -41,6 +42,7 @@ int main(void)
 	ADC2_Init();
 	/*定时周期2ms*/
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+	
 	TIM3_Int_Init(1999,71);
 	/* TIM3 重新开时钟，开始计时 */
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3 , ENABLE);
@@ -51,13 +53,13 @@ int main(void)
  
   while(1){
 		
-//			if(TIM3_count == 50) 
-//			{
-//				printf("原始信号值 %d",Signal);
-//				printf("心率值 %d \r\n ",BPM);
-//				TIM3_count = 0;
-//			}
-		
+			if(TIM3_count == 50) 
+			{
+				printf("原始信号值 %d",Signal);
+				printf("心率值 %d \r\n ",BPM);
+				TIM3_count = 0;
+			}
+//		USART_SendData(UART5,1+0x30);
 			gyro_data_ready_cb();
 			mpu9250_running();
 
@@ -66,6 +68,8 @@ int main(void)
 				inv_execute_on_data();
 				read_from_mpl();
 			}
+			
+			
   }	
 }
 

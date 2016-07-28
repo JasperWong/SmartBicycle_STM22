@@ -85,7 +85,7 @@ static void NVIC_Configuration_4(void)
 	/* Enable the USARTy Interrupt */
 	NVIC_InitStructure.NVIC_IRQChannel = UART4_IRQn;	 
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
 }
@@ -146,23 +146,25 @@ void USART5_Config(void)
 	GPIO_InitTypeDef GPIO_InitStructure;
 	USART_InitTypeDef USART_InitStructure;
 	
-	/* config USART4 clock */
-	RCC_APB2PeriphClockCmd(RCC_APB1Periph_UART5, ENABLE);
+	/* config USART5 clock */
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART5, ENABLE);
 	RCC_APB2PeriphClockCmd((RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD | RCC_APB2Periph_AFIO) , ENABLE);
+	macUSART_GPIO_APBxClock_FUN(macUSART_GPIO_CLK, ENABLE);
 	
-	/* USART1 GPIO config */
-	/* Configure USART1 Tx (PA.10) as alternate function push-pull */
+	
+	/* USART5 GPIO config */
+	/* Configure USART5 Tx (PC12) as alternate function push-pull */
 	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_12;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOC, &GPIO_InitStructure);    
-	/* Configure USART1 Rx (PA.11) as input floating */
+	/* Configure USART1 Rx (PD2) as input floating */
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
 	GPIO_Init(GPIOD, &GPIO_InitStructure);
 	
-	/* USART1 mode config */
-	USART_InitStructure.USART_BaudRate = 115200;
+	/* USART5 mode config */
+	USART_InitStructure.USART_BaudRate = 9600;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;
 	USART_InitStructure.USART_Parity = USART_Parity_No ;
@@ -170,10 +172,9 @@ void USART5_Config(void)
 	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
 	USART_Init(UART5, &USART_InitStructure);
 	
-			/* 使能串口1接收中断 */
+	/* 使能串口5接收中断 */
 	NVIC_Configuration_5();
 	USART_ITConfig(UART5, USART_IT_RXNE, ENABLE);
-	
 	USART_Cmd(UART5, ENABLE);
 }
 
