@@ -26,16 +26,17 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
 #include "bsp_i2c.h"
-
+#include "bicycle.h"
 unsigned int Task_Delay[NumOfTask]={0};
 extern void TimingDelay_Decrement(void);
 extern void TimeStamp_Increment(void);
 extern void gyro_data_ready_cb(void);
-extern 	uint8_t USART_RX_1[4];
-extern 	uint8_t USART_RX_4[4];
-extern 	uint8_t USART_RX_5[4];
+extern uint8_t USART_RX_1[4];
+extern uint8_t USART_RX_4[4];
+extern uint8_t USART_RX_5;
 uint8_t count = 0;
 
+extern BICYCLE mBicycle;
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
   */
@@ -199,15 +200,18 @@ void UART4_IRQHandler(void)
 
 void UART5_IRQHandler(void)
 {
-//	
-//	if(USART_GetITStatus(UART5, USART_IT_RXNE) != RESET)
-//	{ 	
-//	    //ch = USART1->DR;
-//		//(*(USART_RX + count)) = USART_ReceiveData(USART1);
-//		USART_RX_5[count]	= USART_ReceiveData(UART5);
-//	  	printf( "%c", ((USART_RX_5[count])) );    //将接受到的数据直接返回打印
-//		count ++ ;
-//	} 
+	
+	if(USART_GetITStatus(UART5, USART_IT_RXNE) != RESET)
+	{ 	
+        USART_RX_5=USART_ReceiveData(UART5);
+	    //ch = USART1->DR;
+		//(*(USART_RX + count)) = USART_ReceiveData(USART1);
+        if(USART_ReceiveData(UART5)=='g')
+        {
+            mBicycle.outer_status=STATE_OUTDOOR_MODE;
+        }
+        
+	} 
 	 
 }
 /******************************************************************************/

@@ -47,7 +47,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>..\..\Output\</OutputDirectory>
-          <OutputName>SmartBicycle</OutputName>
+          <OutputName>流水灯</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -646,6 +646,11 @@
               <FileName>timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\TIMER\timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>bicycle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\bicycle.c</FilePath>
             </File>
           </Files>
         </Group>

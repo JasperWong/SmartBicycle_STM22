@@ -70,7 +70,10 @@ void TIM3_IRQHandler(void)
 		TIM3_count++;
 		if(TIM3_count == 500)
 		{
-			printf("原始信号值 %d",Signal);
+//			printf("原始信号值 %d",Signal);
+//			printf("心率值 %d \r\n ",BPM);aaaaa
+			printf("  %d\r\n",P);
+			printf("  %d\r\n",T);
 			printf("心率值 %d \r\n ",BPM);
 			TIM3_count = 0;
 		}
@@ -97,7 +100,7 @@ void TIM3_IRQHandler(void)
 	//  NOW IT'S TIME TO LOOK FOR THE HEART BEAT
   // signal surges up in value every time there is a pulse
   if (Num > 250 ){                                 // avoid high frequency noise
-    if ( (Signal > (thresh)) && (Pulse == false) && (Num > (IBI/5)*3) && ((P - T) > 100)){    
+    if ( (Signal > (thresh)) && (Pulse == false) && (Num > (IBI/5)*3)/* && ((P - T) > 100)*/){    
 			Pulse = true; 															// set the Pulse flag when we think there is a pulse                        
       IBI = sampleCounter - lastBeatTime;         // measure time between beats in mS
       lastBeatTime = sampleCounter;               // keep track of time for next pulse
@@ -142,7 +145,7 @@ void TIM3_IRQHandler(void)
   }
 
   //没有检测到脉冲，设置默认值
-	if (Num > 1800 || (Signal > 3*(thresh/2))){                         // if 2.5 seconds go by without a beat
+	if (Num > 1800 /*|| (Signal > 3*(thresh/2))*/){                         // if 2.5 seconds go by without a beat
     thresh = 512;                          // set thresh default
     P = 512;                               // set P default
     T = 512;                               // set T default
