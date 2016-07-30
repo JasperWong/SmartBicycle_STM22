@@ -15,10 +15,11 @@
   */
   
 BICYCLE mBicycle;		
+extern COMMAND_PARSER parser;
 
 uint8_t USART_RX_1[4];
-uint8_t USART_RX_4[4];
-uint8_t USART_RX_5;
+uint16_t USART_RX_4[4];
+uint16_t USART_RX_5;
 extern int IBI;          //相邻节拍时间
 extern int BPM;          //心率值             
 extern int Signal;       //原始信号值            
@@ -58,32 +59,39 @@ int main(void)
 	I2C_Bus_Init();
   
 	mpu9250_config();
- 
+    
+    mBicycle.outer_status=STATE_OUTDOOR_MODE;
+    
 	while(1)
     {
-
+        printf("n_road.txt=汉字");
+        Usart_SendByte(USART1,0xff);
+        Usart_SendByte(USART1,0xff);
+        Usart_SendByte(USART1,0xff);
+ //       printf("123");
 		switch(mBicycle.outer_status)
 		{
 			case STATE_OUTDOOR_MODE:
-                freedom_mode(USART_RX_5);
+                //printf("free");
+//                freedom_mode();
                 break;
             defalut:
                 break;
 		}
 	}
-			gyro_data_ready_cb();
-			mpu9250_running();
+//			gyro_data_ready_cb();
+//			mpu9250_running();
 
-			if (new_data) 
-			{
-				inv_execute_on_data();
-				read_from_mpl();
-			}
-			//			if(TIM3_count == 50) 
+//			if (new_data) 
 //			{
-//				printf("原始信号值 %d",Signal);
-//				printf("心率值 %d \r\n ",BPM);
-//				TIM3_count = 0;
+//				inv_execute_on_data();
+//				read_from_mpl();
+//			}
+//			//			if(TIM3_count == 50) 
+////			{
+////				printf("原始信号值 %d",Signal);
+////				printf("心率值 %d \r\n ",BPM);
+////				TIM3_count = 0;
 //			}
 //  }	
 

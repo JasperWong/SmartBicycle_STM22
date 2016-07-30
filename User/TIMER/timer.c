@@ -72,9 +72,9 @@ void TIM3_IRQHandler(void)
 		{
 //			printf("原始信号值 %d",Signal);
 //			printf("心率值 %d \r\n ",BPM);aaaaa
-			printf("  %d\r\n",P);
-			printf("  %d\r\n",T);
-			printf("心率值 %d \r\n ",BPM);
+//			printf("  %d\r\n",P);
+//			printf("  %d\r\n",T);
+//			printf("心率值 %d \r\n ",BPM);
 			TIM3_count = 0;
 		}
 		//读取到的值右移2位，12位-->10位

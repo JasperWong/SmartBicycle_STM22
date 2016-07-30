@@ -34,9 +34,10 @@ extern void gyro_data_ready_cb(void);
 extern uint8_t USART_RX_1[4];
 extern uint8_t USART_RX_4[4];
 extern uint8_t USART_RX_5;
-uint8_t count = 0;
-
 extern BICYCLE mBicycle;
+uint8_t count = 0;
+uint8_t  package_end[3] = {0xff,0xff,0xff};
+
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
   */
@@ -173,14 +174,16 @@ void macEXTI_INT_FUNCTION (void)
 
 void USART1_IRQHandler(void)
 {
-	
 	if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
 	{ 	
 	    //ch = USART1->DR;
 		//(*(USART_RX + count)) = USART_ReceiveData(USART1);
-			USART_RX_1[count]	= USART_ReceiveData(USART1);
-	  	printf( "%c", ((USART_RX_1[count])) );    //将接受到的数据直接返回打印
+		USART_RX_1[count]	= USART_ReceiveData(USART1);
+//	  	printf( "%c", ((USART_RX_1[count])) );    //将接受到的数据直接返回打印
 		count ++ ;
+        if('r'==USART_ReceiveData(USART1)&&(mBicycle.outer_status==STATE_OUTDOOR_MODE)){
+            Usart_SendStr(UART5,"ring");
+        }
 	} 
 	 
 }
@@ -197,22 +200,15 @@ void UART4_IRQHandler(void)
 	} 
 	 
 }
+extern COMMAND_PARSER parser;
 
 void UART5_IRQHandler(void)
 {
-	
 	if(USART_GetITStatus(UART5, USART_IT_RXNE) != RESET)
 	{ 	
-        USART_RX_5=USART_ReceiveData(UART5);
-	    //ch = USART1->DR;
-		//(*(USART_RX + count)) = USART_ReceiveData(USART1);
-        if(USART_ReceiveData(UART5)=='g')
-        {
-            mBicycle.outer_status=STATE_OUTDOOR_MODE;
-        }
-        
+        OnRecieve(USART_ReceiveData(UART5));
+//        PARSER_RunPaser(&parser,USART_ReceiveData(UART5));
 	} 
-	 
 }
 /******************************************************************************/
 /*                 STM32F10x Peripherals Interrupt Handlers                   */
