@@ -3,7 +3,7 @@
 int new_data = 0;
 unsigned char new_temp = 0;
 unsigned long timestamp;
-
+uint16_t Systick_count;
 
 unsigned char *mpl_key = (unsigned char*)"eMPL 5.1";
 
@@ -49,8 +49,16 @@ void read_from_mpl(void)
 		Roll = data[1]*1.0/(1<<16);
 		Yaw = data[2]*1.0/(1<<16);
 		
-
- 
+		if(Systick_count >= 250)
+		{
+			Systick_count = 0;
+//			printf("Pitch :   %.4f   ",Pitch);printf ("\r\n");
+//			printf ("Roll :   %.4f   ", Roll);printf ("\r\n");
+			printf ("Yaw :   %.4f   ", Yaw);printf ("\r\n");
+			printf ("\r\n  \r\n");
+		}
+		
+		
 		}
 }
 
@@ -244,3 +252,4 @@ flag:
 		}
 
 }
+

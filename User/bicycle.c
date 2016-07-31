@@ -48,7 +48,8 @@ void freedom_mode()
             case STATE_GO_AHEAD:
                 turn_goahead_left_led();
                 turn_goahead_right_led();
-
+                
+ //               clear_led();
                 break;
 
             default:
@@ -71,20 +72,20 @@ void PARSER_Reset(COMMAND_PARSER *parser)
 	parser->status = STATE_WAIT_G;
 }
 
-void PARSER_RunPaser(COMMAND_PARSER *parser,uint16_t data)
+void PARSER_RunPaser(COMMAND_PARSER *parser,int32_t data)
 {
 	switch(parser->status)
 	{
 		case STATE_WAIT_G:
 		{
-            if(data=='G')
-            {
-                mBicycle.outer_status=STATE_OUTDOOR_MODE;
-                Usart_SendStr(USART1,"page outdoor_mode");
-                Usart_SendByte(USART1,0xff);
-                Usart_SendByte(USART1,0xff);
-                Usart_SendByte(USART1,0xff);
-            }
+//            if(data=='G')
+//            {
+//                mBicycle.outer_status=STATE_OUTDOOR_MODE;
+//                Usart_SendStr(USART1,"page outdoor_mode");
+//                Usart_SendByte(USART1,0xff);
+//                Usart_SendByte(USART1,0xff);
+//                Usart_SendByte(USART1,0xff);
+//            }
 //			printf("1");
 			if(data=='g') 
 			{	

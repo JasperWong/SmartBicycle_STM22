@@ -124,6 +124,7 @@ void turn_rightfront_led()
 	Write_max72191(0x07,0x70);
 	Write_max72191(0x08,0x20);
 }
+
 void Write_Max72191_byte(uint8_t DATA)
 {
 	uint8_t i;

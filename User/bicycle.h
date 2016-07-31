@@ -7,6 +7,7 @@
 typedef struct 
 {
 	enum state{
+        STATE_START_MODE,
 		STATE_FREEDOM_MODE,
 		STATE_SPORT_MODE,
 		STATE_SPORT_MODE_WARM1,
@@ -61,7 +62,7 @@ enum state_guide{
 
 uint8_t PARSER_IsParseFinish(COMMAND_PARSER *parser);
 void PARSER_Reset(COMMAND_PARSER *parser);
-void PARSER_RunPaser(COMMAND_PARSER *parser,uint16_t data);
+void PARSER_RunPaser(COMMAND_PARSER *parser,int32_t data);
 void freedom_mode();
 void OnRecieve(int32_t data);
 #endif

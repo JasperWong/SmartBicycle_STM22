@@ -1,5 +1,6 @@
 #include "bicycle_mlx9016.h"  
 unsigned char  DataL,DataH, Pecreg;
+extern uint8_t USART_RX_4[9];
 void mlx_GPIO_Config(void)
 {		
 		/*定义一个GPIO_InitTypeDef类型的结构体*/
@@ -156,6 +157,8 @@ unsigned int memread(void)
     STOP_bit(); 
     return(DataH*256+DataL); 
 } 
+
+
 
 
 /*********************************************END OF FILE**********************/

@@ -8,5 +8,6 @@
 #define false 0
 
 void TIM3_Int_Init(u16 arr,u16 psc);
+void freq_led(uint8_t freq_set);
 
 #endif

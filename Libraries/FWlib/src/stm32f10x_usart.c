@@ -883,7 +883,41 @@ FlagStatus USART_GetFlagStatus(USART_TypeDef* USARTx, uint16_t USART_FLAG)
     assert_param(IS_USART_123_PERIPH(USARTx));
   }  
   
-  if ((USARTx->SR & USART_FLAG) != (uint16_t)RESET)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if ((USARTx->SR & USART_FLAG) != (uint16_t)RESET)
   {
     bitstatus = SET;
   }

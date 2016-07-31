@@ -16,6 +16,7 @@
   */
   
 #include "bicycle_led.h"   
+uint16_t freq_count;
 
  /**
   * @brief  初始化控制LED的IO
@@ -43,6 +44,14 @@ void LED_GPIO_Config(void)
 		
 		/* 关闭所有led灯	*/
 		GPIO_ResetBits(GPIOC,GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5|GPIO_Pin_6|GPIO_Pin_7);
+	
+		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE); 
+		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1;
+		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+		//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+		GPIO_Init(GPIOB,&GPIO_InitStructure);
 		
 }
+
+
 /*********************************************END OF FILE**********************/

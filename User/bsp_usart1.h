@@ -25,12 +25,12 @@
 
 
 void USART1_Config ( void );
+void USART3_Config(void);
 void USART4_Config ( void );
 void USART5_Config ( void );
 void Usart_SendByte( USART_TypeDef * pUSARTx, uint8_t ch);
 void Usart_SendStr( USART_TypeDef * pUSARTx, uint8_t *str );
 uint8_t Usartx_receive( USART_TypeDef * pUSARTx );
-
 
 
 

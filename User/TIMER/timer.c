@@ -1,5 +1,10 @@
 #include "timer.h"
 #include "bsp_usart1.h"
+#include "bicycle.h"
+#include "bicycle_led.h"
+#include "bsp_usart1.h"
+
+extern BICYCLE mBicycle;	
 
 // these variables are volatile because they are used during the interrupt service routine!
 int BPM;                   			 // used to hold the pulse rate
@@ -17,6 +22,14 @@ int amp = 100;                   // used to hold amplitude of pulse waveform, se
 unsigned char firstBeat = true;  // used to seed rate array so we startup with reasonable BPM
 unsigned char secondBeat = false;// used to seed rate array so we startup with reaso
 uint16_t TIM3_count = 0;
+extern uint8_t freq;
+extern uint8_t press_flag;
+extern uint8_t  package_end[3];
+uint16_t warm_1;
+uint8_t warm_count;
+extern uint8_t press_flag;
+
+
 
 /*
  * 函数名：TIM3_Int_Init
@@ -64,18 +77,70 @@ void TIM3_IRQHandler(void)
 	uint16_t runningTotal=0;
 	uint8_t i;
 	uint16_t Num;
+	uint8_t * str;
 	
 	if(TIM_GetITStatus(TIM3,TIM_IT_Update)!=RESET)
 	{
-		TIM3_count++;
-		if(TIM3_count == 500)
+		
+
+		switch(mBicycle.outer_status)
 		{
-//			printf("原始信号值 %d",Signal);
-//			printf("心率值 %d \r\n ",BPM);aaaaa
-//			printf("  %d\r\n",P);
-//			printf("  %d\r\n",T);
-//			printf("心率值 %d \r\n ",BPM);
-			TIM3_count = 0;
+			case STATE_FREEDOM_MODE:
+			case STATE_SPORT_MODE_LEVEL:
+			case STATE_SPORT_MODE_CLIMB:
+				
+			TIM3_count++;
+			//Usart_SendByte(USART1,freq);
+			freq_led(freq);
+			
+			break;
+			
+			case STATE_SPORT_MODE_WARM1:
+				
+			warm_1++;
+			if((warm_1 > 500) && (press_flag == 1))
+			{
+				warm_count++;
+				press_flag = 0;
+				
+				printf("sec.val=");
+				Usart_SendByte(USART1,warm_count+ '0');
+
+				Usart_SendByte(USART1,0xff);				//??
+				Usart_SendByte(USART1,0xff);
+				Usart_SendByte(USART1,0xff);
+				
+				warm_1 = 0;
+				if(warm_count >= 5)
+				{
+					warm_count = 0;
+					printf("page warm_2");
+					Usart_SendByte(USART1,0xff);				//??
+					Usart_SendByte(USART1,0xff);
+					Usart_SendByte(USART1,0xff);
+				}
+				
+				
+			}
+			
+			break;
+			
+			case STATE_SPORT_MODE_WARM3:
+				
+			TIM3_count++;
+			freq_led(4);
+			
+			break;
+			
+			default :
+				break;
+				
+		}
+		if(mBicycle.outer_status == STATE_LESSON_MODE_WARM3)
+		{
+			TIM3_count++;
+			//Usart_SendByte(USART1,freq);
+			freq_led(5);
 		}
 		//读取到的值右移2位，12位-->10位
 		Signal = (ADC_GetConversionValue(ADC2) >> 2);     // read the Pulse Senso
@@ -158,3 +223,23 @@ void TIM3_IRQHandler(void)
 	}
 	TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
 }
+
+void freq_led(uint8_t freq_set)
+{
+	uint16_t freq_1;
+	freq_1 = 100*(10-(freq_set));
+	
+	if(TIM3_count == freq_1)
+	{
+		GPIOC->BSRR =GPIO_Pin_0;
+		GPIOC->BRR =GPIO_Pin_7;
+	}
+	if(TIM3_count >= 2 * freq_1)
+	{
+		GPIOC->ODR ^=GPIO_Pin_0;
+		GPIOC->ODR ^=GPIO_Pin_7;
+		TIM3_count = 0;
+	}
+}
+
+

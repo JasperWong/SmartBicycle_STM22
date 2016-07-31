@@ -11,8 +11,8 @@
 #define led_tip_r_green_on 	   GPIO_SetBits(GPIOC,GPIO_Pin_1)		/* GPIO端口时钟 */
 #define led_tip_r_green_off 	   GPIO_ResetBits(GPIOC,GPIO_Pin_1)
 
-#define led_tip_l_red_on 	   GPIO_SetBits(GPIOC,GPIO_Pin_2)		/* GPIO端口时钟 */
-#define led_tip_l_red_off 	   GPIO_ResetBits(GPIOC,GPIO_Pin_2)
+#define led_tip_l_red_on 	   GPIOC->BSRR = GPIO_Pin_2		/* GPIO端口时钟 */
+#define led_tip_l_red_off 	   GPIOC->BRR = GPIO_Pin_2
 
 #define led_tip_l_green_on 	   GPIO_SetBits(GPIOC,GPIO_Pin_3)		/* GPIO端口时钟 */
 #define led_tip_l_green_off 	   GPIO_ResetBits(GPIOC,GPIO_Pin_3)
@@ -26,8 +26,8 @@
 #define led_myfreq_l_on    	GPIO_SetBits(GPIOC,GPIO_Pin_6)			              /* GPIO端口 */
 #define led_myfreq_l_off    	GPIO_ResetBits(GPIOC,GPIO_Pin_6)
 
-#define led_freq_l_on    	GPIO_SetBits(GPIOC,GPIO_Pin_0)			              /* GPIO端口 */
-#define led_freq_l_off    	GPIO_ResetBits(GPIOC,GPIO_Pin_0)
+#define led_freq_l_on    			GPIOC->BSRR = GPIO_Pin_7	              /* GPIO端口 */
+#define led_freq_l_off    	GPIOC->BRR = GPIO_Pin_7
 
 
 extern void LED_GPIO_Config(void);

@@ -19,4 +19,5 @@
 #define SCL_L GPIO_ResetBits(GPIOF,GPIO_Pin_10)
 extern void mlx_GPIO_Config(void);
 extern unsigned int memread(void);
+
 #endif
